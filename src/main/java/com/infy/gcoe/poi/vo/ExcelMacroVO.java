@@ -29,6 +29,7 @@ public class ExcelMacroVO {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
+		builder.append("\n\t");
 		builder.append("ExcelMacroVO [name=");
 		builder.append(name);
 		//builder.append(", content=");
@@ -36,7 +37,7 @@ public class ExcelMacroVO {
 		builder.append(", lineCount=");
 		builder.append(lineCount);
 		builder.append("]");
-		builder.append("\n");
+		
 		return builder.toString();
 	}
 		

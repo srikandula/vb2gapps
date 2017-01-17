@@ -4,7 +4,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.infy.gcoe.poi.GenerateReport;
+
 public class ExcelReportVO {
+	
+	private static Logger logger = LoggerFactory.getLogger(ExcelReportVO.class);
 	
 	private File file;
 	
@@ -88,21 +95,29 @@ public class ExcelReportVO {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
+		builder.append("\n");
 		builder.append("ExcelReportVO [fileName=");
-		builder.append(fileName);
-		builder.append(", absolutePath=");
-		builder.append(absolutePath);
+		builder.append(fileName);		
 		builder.append(", createdBy=");
 		builder.append(createdBy);
 		builder.append(", lastModifiedBy=");
 		builder.append(lastModifiedBy);
 		builder.append(", size=");
 		builder.append(size);
-		builder.append("\n");
-		if(macroList != null){
+		builder.append(", No Of Macros=");
+		builder.append(macroList.size());
+		
+		if(logger.isDebugEnabled()){
+			builder.append(", absolutePath=");
+			builder.append(absolutePath);
+		}
+				
+		if(logger.isDebugEnabled() && macroList != null){
+			builder.append("\n");
 			builder.append(",[ macroList=");
 			builder.append(macroList.toString());
 			builder.append(" ]");
+			builder.append("\n");
 		}
 		builder.append("]");
 		builder.append("\n");
