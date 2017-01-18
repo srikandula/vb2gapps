@@ -12,8 +12,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import com.infy.gcoe.poi.base.MacroReporter;
-import com.infy.gcoe.poi.base.ReadFolder;
+import com.infy.gcoe.poi.base.MacroReporterBuilder;
+import com.infy.gcoe.poi.base.PrepareFileListBuilder;
 import com.infy.gcoe.poi.vo.ExcelReportVO;
 /**
  * 
@@ -32,11 +32,11 @@ public class GenerateReport implements CommandLineRunner {
 	private List<String> dest = null;
 
 	@Autowired
-	ReadFolder readFolder;
+	PrepareFileListBuilder fileListBuilder;
 
 
 	@Autowired
-	MacroReporter macroReporter;
+	MacroReporterBuilder macroReportBuilder;
 
 	public GenerateReport(ApplicationArguments args){
 		
@@ -62,11 +62,11 @@ public class GenerateReport implements CommandLineRunner {
 		
 		//Read Microsoft files from share folders
 		for(String fileName : source){
-			readFolder.read(new File(fileName), reportList);
+			fileListBuilder.updateFileDetails(new File(fileName), reportList);
 		}
 		
 		//Generate Macro Report
-		macroReporter.extractMacro(reportList);
+		macroReportBuilder.updateMacroDetails(reportList);
 		
 		logger.info("Read folders " + reportList);
 	}

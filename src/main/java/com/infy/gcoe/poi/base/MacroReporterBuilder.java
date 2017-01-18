@@ -11,9 +11,9 @@ import com.infy.gcoe.poi.vo.ExcelMacroVO;
 import com.infy.gcoe.poi.vo.ExcelReportVO;
 
 @Service
-public class MacroReporter {
+public class MacroReporterBuilder {
 
-	public void extractMacro(List<ExcelReportVO> reportList) throws Exception {		
+	public List<ExcelReportVO> updateMacroDetails(List<ExcelReportVO> reportList) throws Exception {		
 		//Extracting the files
 		VBAMacroReader macroReader      = null;
 		Map<String,String> macroMap     = null;
@@ -46,5 +46,7 @@ public class MacroReporter {
 			//Add the list to file
 			report.setMacroList(macroList);
 		}
+		
+		return reportList;
 	}
 }
