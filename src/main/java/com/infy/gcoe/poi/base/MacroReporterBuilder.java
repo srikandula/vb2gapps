@@ -10,10 +10,16 @@ import org.springframework.stereotype.Service;
 import com.infy.gcoe.poi.vo.ExcelMacroVO;
 import com.infy.gcoe.poi.vo.ExcelReportVO;
 
+/**
+ * Step 3: Prepare the list of embedded macros present in the passed file
+ * 
+ * @author srinivas.kandula
+ *
+ */
 @Service
-public class MacroReporterBuilder {
+public class MacroReporterBuilder implements IReportBuilder {
 
-	public List<ExcelReportVO> updateMacroDetails(List<ExcelReportVO> reportList) throws Exception {		
+	public List<ExcelReportVO> update (List<ExcelReportVO> reportList) throws Exception {		
 		//Extracting the files
 		VBAMacroReader macroReader      = null;
 		Map<String,String> macroMap     = null;
@@ -22,6 +28,9 @@ public class MacroReporterBuilder {
 		String macroData                = null;
 		
 		for(ExcelReportVO report : reportList){
+			if(!report.hasMacros()){
+				continue;
+			}
 			//Using POI API to read file
 			macroReader = new VBAMacroReader(report.getFile());
 			//Extracting macros from the file

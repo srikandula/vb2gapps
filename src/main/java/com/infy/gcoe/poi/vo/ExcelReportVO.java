@@ -20,7 +20,16 @@ public class ExcelReportVO {
 	private String createdBy;
 	private String lastModifiedBy;
 	
+	private boolean isExcelFile;
+	private boolean isOldFormat;
+	private String fileExtension;
+	
+	private boolean hasMacros;
+	
 	private long size;
+	
+	private List<ExcelSheetVO> sheetList = new ArrayList<>();
+	private List<ExcelMacroVO> macroList = new ArrayList<>();
 	
 	public ExcelReportVO(){
 		
@@ -34,7 +43,7 @@ public class ExcelReportVO {
 		this.size = size;
 	}
 
-	private List<ExcelMacroVO> macroList = new ArrayList<>();
+	
 
 	public File getFile() {
 		return file;
@@ -84,12 +93,59 @@ public class ExcelReportVO {
 		this.size = size;
 	}
 
+	public List<ExcelSheetVO> getSheetList() {
+		return sheetList;
+	}
+
+	public void setSheetList(List<ExcelSheetVO> sheetList) {
+		this.sheetList = sheetList;
+	}
+	
+	public void addSheet(ExcelSheetVO sheet) {
+		if(this.sheetList == null){
+			sheetList = new ArrayList<>();
+		}
+		this.sheetList.add(sheet);
+	}
+
 	public List<ExcelMacroVO> getMacroList() {
 		return macroList;
 	}
 
 	public void setMacroList(List<ExcelMacroVO> macroList) {
 		this.macroList = macroList;
+	}
+	
+	public boolean isExcelFile() {
+		return isExcelFile;
+	}
+
+	public void isExcelFile(boolean isExcelFile) {
+		this.isExcelFile = isExcelFile;
+	}
+	
+	public boolean isOldFormat() {
+		return isOldFormat;
+	}
+
+	public void setOldFormat(boolean isOldFormat) {
+		this.isOldFormat = isOldFormat;
+	}
+
+	public String getFileExtension() {
+		return fileExtension;
+	}
+
+	public void setFileExtension(String fileExtension) {
+		this.fileExtension = fileExtension;
+	}
+
+	public boolean hasMacros() {
+		return hasMacros;
+	}
+
+	public void setHasMacros(boolean hasMacros) {
+		this.hasMacros = hasMacros;
 	}
 
 	@Override
@@ -102,8 +158,18 @@ public class ExcelReportVO {
 		builder.append(createdBy);
 		builder.append(", lastModifiedBy=");
 		builder.append(lastModifiedBy);
+		builder.append(", fileExtension=");
+		builder.append(fileExtension);
+		builder.append(", isOldFormat=");
+		builder.append(isOldFormat);
+		builder.append(", hasMacros=");
+		builder.append(hasMacros);
+		builder.append(", isExcelFile=");
+		builder.append(isExcelFile);
 		builder.append(", size=");
 		builder.append(size);
+		builder.append(", No Of Sheets=");
+		builder.append(sheetList.size());
 		builder.append(", No Of Macros=");
 		builder.append(macroList.size());
 		
@@ -112,7 +178,15 @@ public class ExcelReportVO {
 			builder.append(absolutePath);
 		}
 				
-		if(logger.isDebugEnabled() && macroList != null){
+		if(sheetList != null){
+			builder.append("\n");
+			builder.append(",[ sheetList=");
+			builder.append(sheetList.toString());
+			builder.append(" ]");
+			builder.append("\n");
+		}
+		
+		if(macroList != null){
 			builder.append("\n");
 			builder.append(",[ macroList=");
 			builder.append(macroList.toString());

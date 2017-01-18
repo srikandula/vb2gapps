@@ -30,7 +30,7 @@ public class ExcelMacroVO {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("\n\t");
-		builder.append("ExcelMacroVO [name=");
+		builder.append("ExcelMacroVO : [name=");
 		builder.append(name);
 		//builder.append(", content=");
 		//builder.append(content);

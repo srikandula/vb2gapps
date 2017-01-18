@@ -1,6 +1,5 @@
 package com.infy.gcoe.poi;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +12,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.infy.gcoe.poi.base.MacroReporterBuilder;
+import com.infy.gcoe.poi.base.PrepareBasicDetailsBuilder;
 import com.infy.gcoe.poi.base.PrepareFileListBuilder;
 import com.infy.gcoe.poi.vo.ExcelReportVO;
 /**
@@ -33,11 +33,20 @@ public class GenerateReport implements CommandLineRunner {
 
 	@Autowired
 	PrepareFileListBuilder fileListBuilder;
-
-
+	
+	@Autowired
+	PrepareBasicDetailsBuilder basicDetailsBuilder; 
+	
 	@Autowired
 	MacroReporterBuilder macroReportBuilder;
-
+	
+	
+	/**
+	 * Default constructor to instantiate the Report generation. 
+	 * This picks the data available in input arguments to run the jobs and store them to local variables
+	 * 
+	 * @param args
+	 */
 	public GenerateReport(ApplicationArguments args){
 		
 		if(args.containsOption("report.source")){
@@ -60,13 +69,17 @@ public class GenerateReport implements CommandLineRunner {
 		
 		List<ExcelReportVO> reportList = new ArrayList<>();
 		
-		//Read Microsoft files from share folders
+		//Step 1 : Read Microsoft files from share folders
 		for(String fileName : source){
-			fileListBuilder.updateFileDetails(new File(fileName), reportList);
+			fileListBuilder.setSource(fileName);
+			fileListBuilder.update(reportList);
 		}
 		
-		//Generate Macro Report
-		macroReportBuilder.updateMacroDetails(reportList);
+		//Step 2 : Identify basic details about the file like no of sheets, rows/columns
+		basicDetailsBuilder.update(reportList);
+		
+		//Step 3: Generate Macro Report
+		macroReportBuilder.update(reportList);
 		
 		logger.info("Read folders " + reportList);
 	}
