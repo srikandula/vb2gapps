@@ -1,5 +1,21 @@
 package com.infy.gcoe.poi.vo;
 
+import static com.infy.gcoe.poi.base.ReportConstants.CREATED_BY;
+import static com.infy.gcoe.poi.base.ReportConstants.FILE_EXTENSION;
+import static com.infy.gcoe.poi.base.ReportConstants.FILE_NAME;
+import static com.infy.gcoe.poi.base.ReportConstants.FILE_SIZE;
+import static com.infy.gcoe.poi.base.ReportConstants.IS_2003_FORMAT;
+import static com.infy.gcoe.poi.base.ReportConstants.IS_EXCEL_FILE;
+import static com.infy.gcoe.poi.base.ReportConstants.LAST_MODIFIED_BY;
+import static com.infy.gcoe.poi.base.ReportConstants.MACROS;
+import static com.infy.gcoe.poi.base.ReportConstants.MACROS_LOC;
+import static com.infy.gcoe.poi.base.ReportConstants.NO_OF_EMBEDDS;
+import static com.infy.gcoe.poi.base.ReportConstants.NO_OF_MACROS;
+import static com.infy.gcoe.poi.base.ReportConstants.NO_OF_PICTURES;
+import static com.infy.gcoe.poi.base.ReportConstants.NO_OF_SHEETS;
+import static com.infy.gcoe.poi.base.ReportConstants.PIVOT_COUNT;
+import static com.infy.gcoe.poi.base.ReportConstants.TOTAL_ROWS;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +23,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.infy.gcoe.poi.base.ReportConstants;
+import com.infy.gcoe.poi.base.ReportConstants.*;
 import com.infy.gcoe.poi.GenerateReport;
 
 public class ExcelReportVO {
@@ -27,6 +45,11 @@ public class ExcelReportVO {
 	private boolean hasMacros;
 	
 	private long size;
+	
+	private long noOfPivotTables;
+	private long noOfEmbedds;
+	private long noOfPictures;
+	
 	
 	private List<ExcelSheetVO> sheetList = new ArrayList<>();
 	private long totalRowCount           = 0l;
@@ -199,6 +222,51 @@ public class ExcelReportVO {
 	public void setHasMacros(boolean hasMacros) {
 		this.hasMacros = hasMacros;
 	}
+	
+
+	public long getNoOfPivotTables() {
+		return noOfPivotTables;
+	}
+
+	public void setNoOfPivotTables(long noOfPivotTables) {
+		this.noOfPivotTables = noOfPivotTables;
+	}
+
+	public long getNoOfEmbedds() {
+		return noOfEmbedds;
+	}
+
+	public void setNoOfEmbedds(long noOfEmbedds) {
+		this.noOfEmbedds = noOfEmbedds;
+	}
+
+	public long getNoOfPictures() {
+		return noOfPictures;
+	}
+
+	public void setNoOfPictures(long noOfPictures) {
+		this.noOfPictures = noOfPictures;
+	}
+
+	public boolean isHasMacros() {
+		return hasMacros;
+	}
+
+	public void setExcelFile(boolean isExcelFile) {
+		this.isExcelFile = isExcelFile;
+	}
+
+	public void setTotalRowCount(long totalRowCount) {
+		this.totalRowCount = totalRowCount;
+	}
+
+	public void setNumberOfSheets(long numberOfSheets) {
+		this.numberOfSheets = numberOfSheets;
+	}
+
+	public void setMacroLinesOfCode(long macroLinesOfCode) {
+		this.macroLinesOfCode = macroLinesOfCode;
+	}
 
 	@Override
 	public String toString() {
@@ -228,6 +296,12 @@ public class ExcelReportVO {
 		builder.append(numberOfMacros);
 		builder.append(", Macros LOC=");
 		builder.append(macroLinesOfCode);
+		builder.append(", noOfPivotTables=");
+		builder.append(noOfPivotTables);
+		builder.append(", noOfEmbedds=");
+		builder.append(noOfEmbedds);
+		builder.append(", noOfPictures=");
+		builder.append(noOfPictures);
 		
 		if(logger.isDebugEnabled()){
 			builder.append(", absolutePath=");
@@ -252,6 +326,29 @@ public class ExcelReportVO {
 		builder.append("]");
 		builder.append("\n");
 		return builder.toString();
+	}
+	
+	
+	public Object[][] getData() {
+		Object header[][] = new Object[][] { 
+				{ FILE_NAME, getFileName() }, 
+				{ CREATED_BY, getCreatedBy() },
+				{ LAST_MODIFIED_BY, getLastModifiedBy() }, 
+				{ FILE_EXTENSION, getFileExtension() },
+				{ IS_2003_FORMAT,  isOldFormat() }, 
+				{ MACROS, isHasMacros() },
+				{ IS_EXCEL_FILE,  isExcelFile() }, 
+				{ FILE_SIZE,  getSize() },
+				{ NO_OF_SHEETS,  getNumberOfSheets() }, 
+				{ TOTAL_ROWS,  getTotalRowCount() },
+				{ NO_OF_MACROS, getNumberOfMacros() }, 
+				{ MACROS_LOC,  getMacroLinesOfCode() },
+				{ PIVOT_COUNT,  getNoOfPivotTables() }, 
+				{ NO_OF_EMBEDDS,  getNoOfEmbedds() },
+				{ NO_OF_PICTURES,  getNoOfPictures() } 
+		};
+
+		return header;
 	}
 	
 	

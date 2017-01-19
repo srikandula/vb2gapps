@@ -1,8 +1,20 @@
 package com.infy.gcoe.poi;
 
+import java.awt.Color;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +23,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import com.infy.gcoe.poi.base.AdvanceStatsReportBuilder;
 import com.infy.gcoe.poi.base.MacroReporterBuilder;
 import com.infy.gcoe.poi.base.PrepareBasicDetailsBuilder;
 import com.infy.gcoe.poi.base.PrepareFileListBuilder;
+import com.infy.gcoe.poi.base.SummaryReportBuilder;
 import com.infy.gcoe.poi.vo.ExcelReportVO;
 /**
  * 
@@ -39,6 +53,12 @@ public class GenerateReport implements CommandLineRunner {
 	
 	@Autowired
 	MacroReporterBuilder macroReportBuilder;
+	
+	@Autowired
+	AdvanceStatsReportBuilder advanceReportBuilder;
+	
+	@Autowired
+	SummaryReportBuilder summaryReportBuilder;
 	
 	
 	/**
@@ -81,8 +101,14 @@ public class GenerateReport implements CommandLineRunner {
 		//Step 3: Generate Macro Report
 		macroReportBuilder.update(reportList);
 		
-		logger.info("Read folders " + reportList);
+		//Step 4: Find advance features like graphs, embedded, pivots
+		advanceReportBuilder.update(reportList);		
+		
+		//Final : Generate summary spread sheet
+		summaryReportBuilder.update(reportList);
 	}
+	
+	
 	
 	
 }
