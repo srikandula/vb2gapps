@@ -29,7 +29,12 @@ public class ExcelReportVO {
 	private long size;
 	
 	private List<ExcelSheetVO> sheetList = new ArrayList<>();
+	private long totalRowCount           = 0l;
+	private long numberOfSheets          = 0l;
+	
 	private List<ExcelMacroVO> macroList = new ArrayList<>();
+	private long macroLinesOfCode        = 0l;
+	private long numberOfMacros          = 0l;
 	
 	public ExcelReportVO(){
 		
@@ -106,6 +111,8 @@ public class ExcelReportVO {
 			sheetList = new ArrayList<>();
 		}
 		this.sheetList.add(sheet);
+		incrementNumberOfSheets();
+		incrementTotalRowCount(sheet.getRowCount());
 	}
 
 	public List<ExcelMacroVO> getMacroList() {
@@ -116,6 +123,51 @@ public class ExcelReportVO {
 		this.macroList = macroList;
 	}
 	
+	public void addMacro(ExcelMacroVO macro) {
+		if(this.macroList == null){
+			macroList = new ArrayList<>();
+		}
+		this.macroList.add(macro);
+		incrementNumberOfMacros();
+		incrementMacroLinesOfCode(macro.getLineCount());
+	}
+	
+	public long getTotalRowCount() {
+		return totalRowCount;
+	}
+
+	public void incrementTotalRowCount(long rowCount) {
+		this.totalRowCount += rowCount;
+	}
+
+	public long getNumberOfSheets() {
+		return numberOfSheets;
+	}
+
+	public void incrementNumberOfSheets() {
+		this.numberOfSheets += 1;
+	}
+
+	public long getMacroLinesOfCode() {
+		return macroLinesOfCode;
+	}
+
+	public void incrementMacroLinesOfCode(long macroLinesOfCode) {
+		this.macroLinesOfCode += macroLinesOfCode;
+	}
+
+	public long getNumberOfMacros() {
+		return numberOfMacros;
+	}
+
+	public void setNumberOfMacros(long numberOfMacros) {
+		this.numberOfMacros = numberOfMacros;
+	}
+	
+	public void incrementNumberOfMacros() {
+		this.numberOfMacros += 1;
+	}
+
 	public boolean isExcelFile() {
 		return isExcelFile;
 	}
@@ -152,7 +204,7 @@ public class ExcelReportVO {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("\n");
-		builder.append("ExcelReportVO [fileName=");
+		builder.append("ReportVO [fileName=");
 		builder.append(fileName);		
 		builder.append(", createdBy=");
 		builder.append(createdBy);
@@ -169,16 +221,20 @@ public class ExcelReportVO {
 		builder.append(", size=");
 		builder.append(size);
 		builder.append(", No Of Sheets=");
-		builder.append(sheetList.size());
+		builder.append(numberOfSheets);
+		builder.append(", Total Rows=");
+		builder.append(totalRowCount);
 		builder.append(", No Of Macros=");
-		builder.append(macroList.size());
+		builder.append(numberOfMacros);
+		builder.append(", Macros LOC=");
+		builder.append(macroLinesOfCode);
 		
 		if(logger.isDebugEnabled()){
 			builder.append(", absolutePath=");
 			builder.append(absolutePath);
 		}
 				
-		if(sheetList != null){
+		if(logger.isDebugEnabled() && sheetList != null){
 			builder.append("\n");
 			builder.append(",[ sheetList=");
 			builder.append(sheetList.toString());
@@ -186,7 +242,7 @@ public class ExcelReportVO {
 			builder.append("\n");
 		}
 		
-		if(macroList != null){
+		if(logger.isDebugEnabled() && macroList != null){
 			builder.append("\n");
 			builder.append(",[ macroList=");
 			builder.append(macroList.toString());
