@@ -51,13 +51,11 @@ public class MacroReporterBuilder implements IReportBuilder {
 					
 					//Adding to file List to track macros
 					report.addMacro(macroVO);
+					
 				}
-				//Add the list to file
-				report.setHasMacros(true);
 				
 			}catch(Exception ex){
-				logger.debug("Error in reading macro, this may occur if passed XLS document doesn't contain macros");
-				report.setHasMacros(false);
+				logger.debug("Error in reading macro, this may occur if passed XLS document doesn't contain macros");				
 			}
 		}
 		

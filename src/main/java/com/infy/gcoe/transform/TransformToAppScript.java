@@ -1,43 +1,85 @@
 package com.infy.gcoe.transform;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import com.infy.gcoe.poi.GenerateReport;
+import com.infy.gcoe.poi.base.PrepareBasicDetailsBuilder;
+import com.infy.gcoe.poi.base.PrepareFileListBuilder;
+import com.infy.gcoe.poi.vo.ExcelReportVO;
+import com.infy.gcoe.transform.core.CreateMacroFilesBuilder;
+import com.infy.gcoe.transform.core.ReadSummaryReportBuilder;
+
+/**
+ * 
+ * mvn spring-boot:run -Drun.arguments="--spring.profiles.active=TransformToAppScript,--report.source=./excel,--report.dest=./report" -Ptransform
+ * 
+ * @author srinivas.kandula
+ *
+ */
 @Component
 @Profile(value="TransformToAppScript")
 public class TransformToAppScript implements CommandLineRunner {
 	
+	private static Logger logger = LoggerFactory.getLogger(TransformToAppScript.class);
+	
+	private List<String> summary = null;
+	private List<String> source = null;
+	private List<String> dest = null;
+	
+	@Autowired
+	ReadSummaryReportBuilder summaryReportBuilder;
+	
+	@Autowired
+	CreateMacroFilesBuilder macroFileBuilder; 
+	
 	public TransformToAppScript(ApplicationArguments args){
-		System.out.println("Inside constructor TransformToAppScript...........");
 		
-		boolean path = args.containsOption("path");
-		System.out.println("Has path Variable " + path);
+		if(args.containsOption("report.summary")){
+			summary = args.getOptionValues("report.summary");
+		}else{
+			summary = new ArrayList<>();
+			summary.add("./summary.xlsx");
+		}
 		
-        List<String> files = args.getNonOptionArgs();
-        for(String name:files){
-        	System.out.println(name);
-        }
-
-        Set<String> optionNames = args.getOptionNames();
-        for(String name:optionNames){
-        	System.out.println(name);
-        }
+		if(args.containsOption("report.source")){
+			source = args.getOptionValues("report.source");
+		}else{
+			source = new ArrayList<>();
+			source.add("./excel");
+		}
+		
+		if(args.containsOption("report.dest")){
+			dest = args.getOptionValues("report.dest");
+		}else{
+			dest = new ArrayList<>();
+			dest.add("./report");
+		}
 	}
 
 	@Override
 	public void run(String[] args) throws Exception {
-		System.out.println("Inside run method of TransformToAppScript...........");
-		if(args != null){
-			System.out.println("Inside TransformToAppScript run() : ");
-			for(int i=0;i<args.length;i++){
-				System.out.println(args[i]);
-			}
+		List<ExcelReportVO> reportList = new ArrayList<>();
+		
+		//Step 1 : Read Microsoft files from share folders
+		for(String fileName : summary){
+			summaryReportBuilder.setSummaryReportFileName(fileName);
+			summaryReportBuilder.run(reportList);
 		}
 		
+		//Step 2 : Generate seperate files for each macro
+		macroFileBuilder.setReportPath(dest.get(0));
+		macroFileBuilder.run(reportList);
+		
+		//Step 3:
 	}
 }

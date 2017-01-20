@@ -8,12 +8,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.poi.ss.usermodel.DataValidation;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.util.CellRangeAddressList;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFDataValidation;
+import org.apache.poi.xssf.usermodel.XSSFDataValidationConstraint;
+import org.apache.poi.xssf.usermodel.XSSFDataValidationHelper;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTDataValidation;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.impl.CTDataValidationImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -34,11 +42,18 @@ public class SummaryReportBuilder implements IReportBuilder {
 	@Override
 	public List<ExcelReportVO> update(List<ExcelReportVO> reportList) throws Exception {
 		try{
-			logger.debug("Read folders " + reportList);
 			
+			String summaryReportFileName = "summary.xlsx";		
 			Date date = new Date();
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
-			String summaryReportFileName = "summary-" + dateFormat.format(date) +".xlsx";
+			String archiveFile = "Archive-Summary-" + dateFormat.format(date) +".xlsx";
+			
+			File oldFile = new File(summaryReportFileName);
+			if(oldFile.exists()){
+				logger.debug("Archive existing file as : " + archiveFile);
+				oldFile.renameTo(new File(archiveFile));
+			}
+			
 			
 			XSSFWorkbook wb = new XSSFWorkbook();
 			FileOutputStream fileOut = new FileOutputStream(new File(summaryReportFileName));
@@ -47,24 +62,32 @@ public class SummaryReportBuilder implements IReportBuilder {
 			XSSFRow headerRow = summarySheet.createRow((short)0);			
 			ExcelReportVO headerReport = new ExcelReportVO();
 			Object headers[][] = headerReport.getData();
-			headerRow.createCell(0).setCellValue("#");
+			
 			XSSFCellStyle style = wb.createCellStyle();
-			style.setFillBackgroundColor(new XSSFColor(Color.GRAY));
+			style.setFillBackgroundColor(new XSSFColor(Color.LIGHT_GRAY));
+			style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+			style.setFillForegroundColor(new XSSFColor(Color.GRAY));
+			
+			XSSFCell cell = headerRow.createCell(0);
+			cell.setCellValue("#");
+			cell.setCellStyle(style);
 			for(int i=0;i<headers.length;i++){
-				XSSFCell cell = headerRow.createCell(i+1);
+				cell = headerRow.createCell(i+1);
 				cell.setCellStyle(style);
 				cell.setCellValue((String)headers[i][0]);				
 			}
 			
 			int rowCounter = 0;
 			XSSFRow row = null;
+			int colCounter = 0;
 			for(ExcelReportVO reportVO : reportList){
 				row = summarySheet.createRow((short)(++rowCounter));
 				
 				Object data[][] = reportVO.getData();
 				Object cellData = null;
+				colCounter = data.length;
 				row.createCell(0).setCellValue(rowCounter);
-				for(int i=0;i<data.length;i++){				
+				for(int i=0;i<colCounter;i++){				
 					cellData = data[i][1];
 					if(cellData instanceof String){
 						row.createCell(i+1).setCellValue((String)cellData);
@@ -72,11 +95,20 @@ public class SummaryReportBuilder implements IReportBuilder {
 						row.createCell(i+1).setCellValue((Long)cellData);
 					}else if(cellData instanceof Boolean){
 						row.createCell(i+1).setCellValue((Boolean)cellData);
+					}else {
+						row.createCell(i+1).setCellValue("-");
 					}
 				}
 				
 			}
 			
+			//Imposing constraint for last cell
+			XSSFDataValidationHelper dvHelper = new XSSFDataValidationHelper(summarySheet);
+			XSSFDataValidationConstraint dvConstraint = (XSSFDataValidationConstraint)dvHelper.createExplicitListConstraint(ReportConstants.ACTION_RESPONSE);
+			CellRangeAddressList addressList = new CellRangeAddressList(1, rowCounter, colCounter, colCounter);
+			XSSFDataValidation validation = (XSSFDataValidation)dvHelper.createValidation(dvConstraint, addressList);
+			validation.setShowErrorBox(true);
+			summarySheet.addValidationData(validation);
 			
 			wb.write(fileOut);
 			fileOut.close();

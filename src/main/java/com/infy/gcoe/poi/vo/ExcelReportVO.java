@@ -1,9 +1,13 @@
 package com.infy.gcoe.poi.vo;
 
+import static com.infy.gcoe.poi.base.ReportConstants.ACTION_RESPONSE;
+import static com.infy.gcoe.poi.base.ReportConstants.ACTION_RESP_NO_ACTION;
+import static com.infy.gcoe.poi.base.ReportConstants.ACTION_TYPE;
 import static com.infy.gcoe.poi.base.ReportConstants.CREATED_BY;
 import static com.infy.gcoe.poi.base.ReportConstants.FILE_EXTENSION;
 import static com.infy.gcoe.poi.base.ReportConstants.FILE_NAME;
 import static com.infy.gcoe.poi.base.ReportConstants.FILE_SIZE;
+import static com.infy.gcoe.poi.base.ReportConstants.FULL_FILE_NAME;
 import static com.infy.gcoe.poi.base.ReportConstants.IS_2003_FORMAT;
 import static com.infy.gcoe.poi.base.ReportConstants.IS_EXCEL_FILE;
 import static com.infy.gcoe.poi.base.ReportConstants.LAST_MODIFIED_BY;
@@ -150,6 +154,7 @@ public class ExcelReportVO {
 		if(this.macroList == null){
 			macroList = new ArrayList<>();
 		}
+		this.setHasMacros(true);
 		this.macroList.add(macro);
 		incrementNumberOfMacros();
 		incrementMacroLinesOfCode(macro.getLineCount());
@@ -303,7 +308,7 @@ public class ExcelReportVO {
 		builder.append(", noOfPictures=");
 		builder.append(noOfPictures);
 		
-		if(logger.isDebugEnabled()){
+		if(!logger.isDebugEnabled()){
 			builder.append(", absolutePath=");
 			builder.append(absolutePath);
 		}
@@ -328,10 +333,15 @@ public class ExcelReportVO {
 		return builder.toString();
 	}
 	
-	
+	/**
+	 * Prepare 2x2 matrix to populate the excel sheet
+	 * 
+	 * @return
+	 */
 	public Object[][] getData() {
 		Object header[][] = new Object[][] { 
 				{ FILE_NAME, getFileName() }, 
+				{ FULL_FILE_NAME, getAbsolutePath() },
 				{ CREATED_BY, getCreatedBy() },
 				{ LAST_MODIFIED_BY, getLastModifiedBy() }, 
 				{ FILE_EXTENSION, getFileExtension() },
@@ -345,10 +355,99 @@ public class ExcelReportVO {
 				{ MACROS_LOC,  getMacroLinesOfCode() },
 				{ PIVOT_COUNT,  getNoOfPivotTables() }, 
 				{ NO_OF_EMBEDDS,  getNoOfEmbedds() },
-				{ NO_OF_PICTURES,  getNoOfPictures() } 
+				{ NO_OF_PICTURES,  getNoOfPictures() } ,
+				{ ACTION_TYPE,  ACTION_RESP_NO_ACTION } 
 		};
 
 		return header;
+	}
+	
+	/**
+	 * Recreate the excel VO
+	 * @param headerName
+	 * @param value
+	 * @return
+	 */
+	public ExcelReportVO setData(String headerName, String value) {
+		
+		switch(headerName){
+		case FILE_NAME:
+			setFileName(value);
+			break;
+		case FULL_FILE_NAME:
+			setAbsolutePath(value);
+			break;
+		case CREATED_BY:
+			setCreatedBy(value);
+			break;
+		case LAST_MODIFIED_BY:
+			setLastModifiedBy(value);
+			break;
+		case FILE_EXTENSION:
+			setFileExtension(value);
+			break;
+		}		
+		return this;
+	}
+	
+	/**
+	 * Recreate the excel VO
+	 * @param headerName
+	 * @param value
+	 * @return
+	 */
+	public ExcelReportVO setData(String headerName, Boolean value) {
+		
+		switch(headerName){		
+		case IS_2003_FORMAT:
+			setOldFormat(value);
+			break;
+		case MACROS:
+			setHasMacros(value);
+			break;
+		case IS_EXCEL_FILE:
+			setExcelFile(value);
+			break;
+		}		
+		return this;
+	}
+	
+	/**
+	 * Recreate the excel VO
+	 * @param headerName
+	 * @param value
+	 * @return
+	 */
+	public ExcelReportVO setData(String headerName, Long value) {
+		
+		switch(headerName){		
+		case FILE_SIZE:
+			setSize(value);
+			break;
+		case NO_OF_SHEETS:
+			setNumberOfSheets(value);
+			break;
+		case TOTAL_ROWS:
+			setTotalRowCount(value);
+			break;
+		case NO_OF_MACROS:
+			setNumberOfMacros(value);
+			break;
+		case MACROS_LOC:
+			setMacroLinesOfCode(value);
+			break;
+		case PIVOT_COUNT:
+			setNoOfPivotTables(value);
+			break;
+		case NO_OF_EMBEDDS:
+			setNoOfEmbedds(value);
+			break;
+		case NO_OF_PICTURES:
+			setNoOfPictures(value);
+			break;
+		}
+		
+		return this;
 	}
 	
 	
