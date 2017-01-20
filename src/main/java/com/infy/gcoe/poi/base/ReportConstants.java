@@ -3,10 +3,13 @@ package com.infy.gcoe.poi.base;
 public class ReportConstants {
 	public static String LINE_SEPERATOR = System.getProperty("line.separator");
 	
+	public static final String SUMMARY_REPORT      = "Summary.xlsx";
+	
 	public static final String FILE_NAME 		   = "File Name";
 	public static final String FULL_FILE_NAME      = "Path";
 	public static final String CREATED_BY 		   = "Created By";
 	public static final String LAST_MODIFIED_BY    = "Last Modified By";
+	public static final String LAST_MODIFIED_DATE  = "Last Modified Date";
 	public static final String FILE_EXTENSION 	   = "File Extension";
 	public static final String IS_2003_FORMAT 	   = "Is 2003 Format?";
 	public static final String MACROS 		       = "Macros";

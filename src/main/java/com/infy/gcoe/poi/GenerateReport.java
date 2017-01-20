@@ -1,20 +1,8 @@
 package com.infy.gcoe.poi;
 
-import java.awt.Color;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFColor;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,6 +75,7 @@ public class GenerateReport implements CommandLineRunner {
 	@Override
 	public void run(String[] args) throws Exception {
 		
+		logger.info("About to read fles from " + source);
 		List<ExcelReportVO> reportList = new ArrayList<>();
 		
 		//Step 1 : Read Microsoft files from share folders
@@ -95,17 +84,25 @@ public class GenerateReport implements CommandLineRunner {
 			fileListBuilder.update(reportList);
 		}
 		
-		//Step 2 : Identify basic details about the file like no of sheets, rows/columns
-		basicDetailsBuilder.update(reportList);
-		
-		//Step 3: Generate Macro Report
-		macroReportBuilder.update(reportList);
-		
-		//Step 4: Find advance features like graphs, embedded, pivots
-		advanceReportBuilder.update(reportList);		
+		for(ExcelReportVO report : reportList){
+			
+			//Step 2 : Identify basic details about the file like no of sheets, rows/columns
+			basicDetailsBuilder.update(report);
+			
+			if(report.isExcelFile()){
+				
+				//Step 3: Generate Macro Report
+				macroReportBuilder.update(report);
+				
+				//Step 4: Find advance features like graphs, embedded, pivots
+				advanceReportBuilder.update(report);				
+			}
+		}
 		
 		//Final : Generate summary spread sheet
 		summaryReportBuilder.update(reportList);
+		
+		
 	}
 	
 	

@@ -1,5 +1,7 @@
 package com.infy.gcoe.transform;
 
+import static com.infy.gcoe.poi.base.ReportConstants.SUMMARY_REPORT;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Component;
 import com.infy.gcoe.poi.GenerateReport;
 import com.infy.gcoe.poi.base.PrepareBasicDetailsBuilder;
 import com.infy.gcoe.poi.base.PrepareFileListBuilder;
+import com.infy.gcoe.poi.base.ReportConstants;
 import com.infy.gcoe.poi.vo.ExcelReportVO;
 import com.infy.gcoe.transform.core.CreateMacroFilesBuilder;
 import com.infy.gcoe.transform.core.ReadSummaryReportBuilder;
@@ -48,7 +51,7 @@ public class TransformToAppScript implements CommandLineRunner {
 			summary = args.getOptionValues("report.summary");
 		}else{
 			summary = new ArrayList<>();
-			summary.add("./summary.xlsx");
+			summary.add("./" + SUMMARY_REPORT);
 		}
 		
 		if(args.containsOption("report.source")){
@@ -77,8 +80,13 @@ public class TransformToAppScript implements CommandLineRunner {
 		}
 		
 		//Step 2 : Generate seperate files for each macro
-		macroFileBuilder.setReportPath(dest.get(0));
-		macroFileBuilder.run(reportList);
+		for(ExcelReportVO report : reportList){
+			if(report.isExcelFile()){
+				macroFileBuilder.setReportPath(dest.get(0));
+				macroFileBuilder.run(report);
+			}
+		}
+		
 		
 		//Step 3:
 	}

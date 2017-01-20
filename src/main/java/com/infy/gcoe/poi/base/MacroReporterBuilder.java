@@ -1,7 +1,5 @@
 package com.infy.gcoe.poi.base;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.poi.poifs.macros.VBAMacroReader;
@@ -24,41 +22,38 @@ public class MacroReporterBuilder implements IReportBuilder {
 
 	private static Logger logger = LoggerFactory.getLogger(GenerateReport.class);
 	
-	public List<ExcelReportVO> update (List<ExcelReportVO> reportList) throws Exception {		
+	public ExcelReportVO update (ExcelReportVO report) throws Exception {		
 		//Extracting the files
 		VBAMacroReader macroReader      = null;
 		Map<String,String> macroMap     = null;
 		ExcelMacroVO macroVO            = null;
 		String macroData                = null;
 		
-		for(ExcelReportVO report : reportList){
-			try{
-				//Using POI API to read file
-				macroReader = new VBAMacroReader(report.getFile());
-				//Extracting macros from the file
-				macroMap = macroReader.readMacros();
+		try{
+			//Using POI API to read file
+			macroReader = new VBAMacroReader(report.getFile());
+			//Extracting macros from the file
+			macroMap = macroReader.readMacros();
+			
+			for(String macroName : macroMap.keySet()){
+				//Reading macro data
+				macroData       = macroMap.get(macroName);
+				int lineCount   = macroData.split(ReportConstants.LINE_SEPERATOR).length;
 				
-				for(String macroName : macroMap.keySet()){
-					//Reading macro data
-					macroData       = macroMap.get(macroName);
-					int lineCount   = macroData.split(ReportConstants.LINE_SEPERATOR).length;
-					
-					//Collating required information to a VO
-					macroVO         = new ExcelMacroVO();
-					macroVO.setName(macroName);
-					macroVO.setLineCount(lineCount);
-					macroVO.setContent(macroData);
-					
-					//Adding to file List to track macros
-					report.addMacro(macroVO);
-					
-				}
+				//Collating required information to a VO
+				macroVO         = new ExcelMacroVO();
+				macroVO.setName(macroName);
+				macroVO.setLineCount(lineCount);
+				macroVO.setContent(macroData);
 				
-			}catch(Exception ex){
-				logger.debug("Error in reading macro, this may occur if passed XLS document doesn't contain macros");				
+				//Adding to file List to track macros
+				report.addMacro(macroVO);				
 			}
+			
+		}catch(Exception ex){
+			logger.debug("Error in reading macro, this may occur if passed XLS document doesn't contain macros");				
 		}
 		
-		return reportList;
+		return report;
 	}
 }

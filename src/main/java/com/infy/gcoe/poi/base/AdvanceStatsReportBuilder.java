@@ -23,44 +23,47 @@ public class AdvanceStatsReportBuilder implements IReportBuilder {
 	private static Logger logger = LoggerFactory.getLogger(AdvanceStatsReportBuilder.class);
 	
 	@Override
-	public List<ExcelReportVO> update(List<ExcelReportVO> reportList) throws Exception {
+	public ExcelReportVO update(ExcelReportVO report) throws Exception {
 
-		for(ExcelReportVO report : reportList){
-			if(report.isExcelFile()){
-				if(report.isOldFormat()){			
-					HSSFWorkbook workbook = new HSSFWorkbook(new BufferedInputStream( new FileInputStream(report.getFile())));
-					
-					List<HSSFObjectData> embeddedList = workbook.getAllEmbeddedObjects();
-					List<HSSFPictureData> pictureList = workbook.getAllPictures();
-					
-					if(embeddedList != null){
-						report.setNoOfEmbedds(embeddedList.size());
-					}
-					if(pictureList != null){
-						report.setNoOfPictures(pictureList.size());
-					}
-				}else{
-					XSSFWorkbook workbook = new XSSFWorkbook(new BufferedInputStream( new FileInputStream(report.getFile())));
-					
-					List<PackagePart> embeddedList = workbook.getAllEmbedds();
-					List<XSSFPictureData> pictureList = workbook.getAllPictures();
-					List<XSSFPivotTable> pivotList = workbook.getPivotTables();
-					
-					if(embeddedList != null){
-						report.setNoOfEmbedds(embeddedList.size());
-					}
-					if(pictureList != null){
-						report.setNoOfPictures(pictureList.size());
-					}
-					if(pivotList != null){
-						report.setNoOfPivotTables(pivotList.size());
-					}					
-				}
-				
+		logger.debug("Reporting advance features of " + report.getFileName());
+		
+		if(report.isOldFormat()){			
+			HSSFWorkbook workbook = new HSSFWorkbook(new BufferedInputStream( new FileInputStream(report.getFile())));
+			
+			List<HSSFObjectData> embeddedList = workbook.getAllEmbeddedObjects();
+			List<HSSFPictureData> pictureList = workbook.getAllPictures();
+			
+			if(embeddedList != null){
+				report.setNoOfEmbedds(embeddedList.size());
 			}
+			if(pictureList != null){
+				report.setNoOfPictures(pictureList.size());
+			}
+			
+			workbook.close();
+			
+		}else{
+			
+			XSSFWorkbook workbook = new XSSFWorkbook(new BufferedInputStream( new FileInputStream(report.getFile())));
+			
+			List<PackagePart> embeddedList = workbook.getAllEmbedds();
+			List<XSSFPictureData> pictureList = workbook.getAllPictures();
+			List<XSSFPivotTable> pivotList = workbook.getPivotTables();
+			
+			if(embeddedList != null){
+				report.setNoOfEmbedds(embeddedList.size());
+			}
+			if(pictureList != null){
+				report.setNoOfPictures(pictureList.size());
+			}
+			if(pivotList != null){
+				report.setNoOfPivotTables(pivotList.size());
+			}		
+			
+			workbook.close();
 		}
 
-		return reportList;
+		return report;
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.infy.gcoe.poi.base;
 
+import static com.infy.gcoe.poi.base.ReportConstants.SUMMARY_REPORT;
+
 import java.awt.Color;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -8,7 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.poi.ss.usermodel.DataValidation;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.util.CellRangeAddressList;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -20,8 +21,6 @@ import org.apache.poi.xssf.usermodel.XSSFDataValidationHelper;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTDataValidation;
-import org.openxmlformats.schemas.spreadsheetml.x2006.main.impl.CTDataValidationImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -35,35 +34,34 @@ import com.infy.gcoe.poi.vo.ExcelReportVO;
  *
  */
 @Service
-public class SummaryReportBuilder implements IReportBuilder {
+public class SummaryReportBuilder {
 	
 	private static Logger logger = LoggerFactory.getLogger(SummaryReportBuilder.class);
 
-	@Override
 	public List<ExcelReportVO> update(List<ExcelReportVO> reportList) throws Exception {
 		try{
 			
-			String summaryReportFileName = "summary.xlsx";		
+
 			Date date = new Date();
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
 			String archiveFile = "Archive-Summary-" + dateFormat.format(date) +".xlsx";
 			
-			File oldFile = new File(summaryReportFileName);
+			File oldFile = new File(SUMMARY_REPORT);
 			if(oldFile.exists()){
 				logger.debug("Archive existing file as : " + archiveFile);
 				oldFile.renameTo(new File(archiveFile));
 			}
 			
 			
-			XSSFWorkbook wb = new XSSFWorkbook();
-			FileOutputStream fileOut = new FileOutputStream(new File(summaryReportFileName));
-			XSSFSheet summarySheet = wb.createSheet("summary");
+			XSSFWorkbook xssfWorkBook = new XSSFWorkbook();
+			FileOutputStream fileOut = new FileOutputStream(new File(SUMMARY_REPORT));
+			XSSFSheet summarySheet = xssfWorkBook.createSheet("summary");
 			
 			XSSFRow headerRow = summarySheet.createRow((short)0);			
 			ExcelReportVO headerReport = new ExcelReportVO();
 			Object headers[][] = headerReport.getData();
 			
-			XSSFCellStyle style = wb.createCellStyle();
+			XSSFCellStyle style = xssfWorkBook.createCellStyle();
 			style.setFillBackgroundColor(new XSSFColor(Color.LIGHT_GRAY));
 			style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 			style.setFillForegroundColor(new XSSFColor(Color.GRAY));
@@ -110,7 +108,8 @@ public class SummaryReportBuilder implements IReportBuilder {
 			validation.setShowErrorBox(true);
 			summarySheet.addValidationData(validation);
 			
-			wb.write(fileOut);
+			xssfWorkBook.write(fileOut);
+			xssfWorkBook.close();
 			fileOut.close();
 		}catch(Exception exception){
 			logger.error("Error in creating summary",exception);

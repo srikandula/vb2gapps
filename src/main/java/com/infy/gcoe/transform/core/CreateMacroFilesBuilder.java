@@ -1,7 +1,6 @@
 package com.infy.gcoe.transform.core;
 
 import java.io.File;
-import java.util.List;
 
 import org.apache.poi.poifs.macros.VBAMacroExtractor;
 import org.slf4j.Logger;
@@ -28,20 +27,16 @@ public class CreateMacroFilesBuilder implements ITransformBuilder {
 	}
 	
 	@Override
-	public List<ExcelReportVO> run(List<ExcelReportVO> reportList) throws Exception {
+	public ExcelReportVO run(ExcelReportVO report) throws Exception {
 
-
-		for(ExcelReportVO report : reportList){
-			VBAMacroExtractor macroExt = new VBAMacroExtractor();
-			
-			if(report.hasMacros()){
-				logger.info("Generating Macros for : " + report.getAbsolutePath());
-				macroExt.extract(new File(report.getAbsolutePath()), new File(fileOutout + "/" + report.getFileName() + "/"));
-			}
+		VBAMacroExtractor macroExt = new VBAMacroExtractor();
+		
+		if(report.hasMacros()){
+			logger.info("Generating Macros for : " + report.getAbsolutePath());
+			macroExt.extract(new File(report.getAbsolutePath()), new File(fileOutout + "/" + report.getFileName() + "/"));
 		}
 
-
-		return reportList;
+		return report;
 	}
 
 	

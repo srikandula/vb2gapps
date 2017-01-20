@@ -1,8 +1,6 @@
 package com.infy.gcoe.transform.core;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -26,7 +24,7 @@ import com.infy.gcoe.poi.vo.ExcelReportVO;
  *
  */
 @Service
-public class ReadSummaryReportBuilder implements ITransformBuilder {
+public class ReadSummaryReportBuilder {
 
 	private static Logger logger = LoggerFactory.getLogger(ReadSummaryReportBuilder.class);
 	
@@ -35,12 +33,13 @@ public class ReadSummaryReportBuilder implements ITransformBuilder {
 	public void setSummaryReportFileName(String summaryReportFileName){
 		this.summaryReportFileName = summaryReportFileName;
 	}
-
-	@Override
+	
 	public List<ExcelReportVO> run(List<ExcelReportVO> reportList) throws Exception {
 
+		logger.debug("About to read summary report information : " + summaryReportFileName);
+		
 		XSSFWorkbook wb = new XSSFWorkbook(new File(summaryReportFileName));
-		XSSFSheet summarySheet = wb.getSheet("summary");
+		XSSFSheet summarySheet = wb.getSheet("Summary");
 		int counter = 0 ;
 		
 		Map<Integer,String> headerMap = new HashMap<>();
@@ -87,6 +86,9 @@ public class ReadSummaryReportBuilder implements ITransformBuilder {
 				}
 				counter++;				
 			}
+			
+			wb.close();
+			
 			reportList.add(reportVO);
 		}
 		

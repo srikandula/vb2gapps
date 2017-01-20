@@ -14,7 +14,7 @@ import com.infy.gcoe.poi.vo.ExcelReportVO;
  *
  */
 @Service
-public class PrepareFileListBuilder implements IReportBuilder{
+public class PrepareFileListBuilder {
 	
 	private String source = null;
 	private File sourceFile = null;
@@ -33,7 +33,6 @@ public class PrepareFileListBuilder implements IReportBuilder{
 	 * Builds the list of files to the reportVO
 	 * 
 	 */
-	@Override
 	public List<ExcelReportVO> update(List<ExcelReportVO> reportList) throws Exception {
 		if(this.source == null){
 			throw new Exception("Source folder need to be set before invoking this");			

@@ -1,6 +1,5 @@
 package com.infy.gcoe.poi.vo;
 
-import static com.infy.gcoe.poi.base.ReportConstants.ACTION_RESPONSE;
 import static com.infy.gcoe.poi.base.ReportConstants.ACTION_RESP_NO_ACTION;
 import static com.infy.gcoe.poi.base.ReportConstants.ACTION_TYPE;
 import static com.infy.gcoe.poi.base.ReportConstants.CREATED_BY;
@@ -11,6 +10,7 @@ import static com.infy.gcoe.poi.base.ReportConstants.FULL_FILE_NAME;
 import static com.infy.gcoe.poi.base.ReportConstants.IS_2003_FORMAT;
 import static com.infy.gcoe.poi.base.ReportConstants.IS_EXCEL_FILE;
 import static com.infy.gcoe.poi.base.ReportConstants.LAST_MODIFIED_BY;
+import static com.infy.gcoe.poi.base.ReportConstants.LAST_MODIFIED_DATE;
 import static com.infy.gcoe.poi.base.ReportConstants.MACROS;
 import static com.infy.gcoe.poi.base.ReportConstants.MACROS_LOC;
 import static com.infy.gcoe.poi.base.ReportConstants.NO_OF_EMBEDDS;
@@ -27,10 +27,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.infy.gcoe.poi.base.ReportConstants;
-import com.infy.gcoe.poi.base.ReportConstants.*;
-import com.infy.gcoe.poi.GenerateReport;
-
 public class ExcelReportVO {
 	
 	private static Logger logger = LoggerFactory.getLogger(ExcelReportVO.class);
@@ -41,6 +37,7 @@ public class ExcelReportVO {
 	private String absolutePath;
 	private String createdBy;
 	private String lastModifiedBy;
+	private String lastModifiedDate;
 	
 	private boolean isExcelFile;
 	private boolean isOldFormat;
@@ -115,6 +112,14 @@ public class ExcelReportVO {
 
 	public void setLastModifiedBy(String lastModifiedBy) {
 		this.lastModifiedBy = lastModifiedBy;
+	}
+
+	public String getLastModifiedDate() {
+		return lastModifiedDate;
+	}
+
+	public void setLastModifiedDate(String lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
 	}
 
 	public long getSize() {
@@ -283,6 +288,8 @@ public class ExcelReportVO {
 		builder.append(createdBy);
 		builder.append(", lastModifiedBy=");
 		builder.append(lastModifiedBy);
+		builder.append(", lastModifiedDate=");
+		builder.append(lastModifiedDate);
 		builder.append(", fileExtension=");
 		builder.append(fileExtension);
 		builder.append(", isOldFormat=");
@@ -344,6 +351,7 @@ public class ExcelReportVO {
 				{ FULL_FILE_NAME, getAbsolutePath() },
 				{ CREATED_BY, getCreatedBy() },
 				{ LAST_MODIFIED_BY, getLastModifiedBy() }, 
+				{ LAST_MODIFIED_DATE, getLastModifiedDate() }, 
 				{ FILE_EXTENSION, getFileExtension() },
 				{ IS_2003_FORMAT,  isOldFormat() }, 
 				{ MACROS, isHasMacros() },
@@ -382,6 +390,9 @@ public class ExcelReportVO {
 			break;
 		case LAST_MODIFIED_BY:
 			setLastModifiedBy(value);
+			break;
+		case LAST_MODIFIED_DATE:
+			setLastModifiedDate(value);
 			break;
 		case FILE_EXTENSION:
 			setFileExtension(value);
