@@ -1,4 +1,4 @@
-package com.infy.gcoe.poi.vo;
+package com.infy.gcoe.vo;
 
 public class ExcelSheetVO {
 	

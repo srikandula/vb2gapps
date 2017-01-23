@@ -16,7 +16,7 @@ import com.infy.gcoe.poi.base.MacroReporterBuilder;
 import com.infy.gcoe.poi.base.PrepareBasicDetailsBuilder;
 import com.infy.gcoe.poi.base.PrepareFileListBuilder;
 import com.infy.gcoe.poi.base.SummaryReportBuilder;
-import com.infy.gcoe.poi.vo.ExcelReportVO;
+import com.infy.gcoe.vo.ExcelReportVO;
 /**
  * 
  * Run Command from Command prompt

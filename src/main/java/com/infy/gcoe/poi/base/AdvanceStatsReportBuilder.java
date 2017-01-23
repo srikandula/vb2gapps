@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.infy.gcoe.poi.vo.ExcelReportVO;
+import com.infy.gcoe.vo.ExcelReportVO;
 
 @Service
 public class AdvanceStatsReportBuilder implements IReportBuilder {

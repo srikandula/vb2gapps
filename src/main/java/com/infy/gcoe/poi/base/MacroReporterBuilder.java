@@ -8,8 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.infy.gcoe.poi.GenerateReport;
-import com.infy.gcoe.poi.vo.ExcelMacroVO;
-import com.infy.gcoe.poi.vo.ExcelReportVO;
+import com.infy.gcoe.util.ReportConstants;
+import com.infy.gcoe.vo.ExcelMacroVO;
+import com.infy.gcoe.vo.ExcelReportVO;
 
 /**
  * Step 3: Prepare the list of embedded macros present in the passed file

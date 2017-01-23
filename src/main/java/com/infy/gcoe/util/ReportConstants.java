@@ -1,4 +1,4 @@
-package com.infy.gcoe.poi.base;
+package com.infy.gcoe.util;
 
 public class ReportConstants {
 	public static String LINE_SEPERATOR = System.getProperty("line.separator");
@@ -24,9 +24,9 @@ public class ReportConstants {
 	public static final String NO_OF_PICTURES 	   = "No Of Pictures";
 	public static final String ACTION_TYPE     	   = "Convert ?";
 	
-	public static final String ACTION_RESP_ATUO        = "Auto-Upload";
+	public static final String ACTION_RESP_AUTO_UPLOAD = "Auto-Upload";
 	public static final String ACTION_RESP_VB_2_APPS   = "Only-VB-2-Apps";
 	public static final String ACTION_RESP_NO_ACTION   = "No-Action";
-	public static final String[] ACTION_RESPONSE       =  {ACTION_RESP_ATUO,ACTION_RESP_VB_2_APPS,ACTION_RESP_NO_ACTION};
+	public static final String[] ACTION_RESPONSE       =  {ACTION_RESP_AUTO_UPLOAD,ACTION_RESP_VB_2_APPS,ACTION_RESP_NO_ACTION};
 
 }

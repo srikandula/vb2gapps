@@ -7,8 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.infy.gcoe.poi.vo.ExcelReportVO;
 import com.infy.gcoe.transform.util.VB2JavaScriptUtil;
+import com.infy.gcoe.vo.ExcelReportVO;
 
 /**
  * Step 3: Converts the VB Script files to AppScript Files

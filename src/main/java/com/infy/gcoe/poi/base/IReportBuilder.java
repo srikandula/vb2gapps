@@ -1,6 +1,6 @@
 package com.infy.gcoe.poi.base;
 
-import com.infy.gcoe.poi.vo.ExcelReportVO;
+import com.infy.gcoe.vo.ExcelReportVO;
 
 public interface IReportBuilder {
 	

@@ -16,8 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.infy.gcoe.poi.GenerateReport;
-import com.infy.gcoe.poi.vo.ExcelReportVO;
-import com.infy.gcoe.poi.vo.ExcelSheetVO;
+import com.infy.gcoe.vo.ExcelReportVO;
+import com.infy.gcoe.vo.ExcelSheetVO;
 
 /**
  * Step 2: Identify the basic details like number of sheets, number of rows/columns per sheet

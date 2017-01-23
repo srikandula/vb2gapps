@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.infy.gcoe.poi.vo.ExcelReportVO;
+import com.infy.gcoe.vo.ExcelReportVO;
 
 /**
  * Step 1: Identify the list of files which needs to be used for migration

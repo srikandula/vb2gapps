@@ -1,6 +1,6 @@
 package com.infy.gcoe.poi.base;
 
-import static com.infy.gcoe.poi.base.ReportConstants.SUMMARY_REPORT;
+import static com.infy.gcoe.util.ReportConstants.SUMMARY_REPORT;
 
 import java.awt.Color;
 import java.io.File;
@@ -25,7 +25,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.infy.gcoe.poi.vo.ExcelReportVO;
+import com.infy.gcoe.util.ReportConstants;
+import com.infy.gcoe.vo.ExcelReportVO;
 
 /**
  * Creates a summary spread sheet with findings
