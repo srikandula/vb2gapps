@@ -60,6 +60,9 @@ public class ExcelReportVO {
 	private long macroLinesOfCode        = 0l;
 	private long numberOfMacros          = 0l;
 	
+	private String userIntention;
+	private File[] vbMacroFiles          = null;
+	
 	public ExcelReportVO(){
 		
 	}
@@ -278,6 +281,22 @@ public class ExcelReportVO {
 		this.macroLinesOfCode = macroLinesOfCode;
 	}
 
+	public String getUserIntention() {
+		return userIntention;
+	}
+
+	public void setUserIntention(String userIntention) {
+		this.userIntention = userIntention;
+	}
+
+	public File[] getVbMacroFiles() {
+		return vbMacroFiles;
+	}
+
+	public void setVbMacroFiles(File[] vbMacroFiles) {
+		this.vbMacroFiles = vbMacroFiles;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -396,6 +415,11 @@ public class ExcelReportVO {
 			break;
 		case FILE_EXTENSION:
 			setFileExtension(value);
+			break;
+		case ACTION_TYPE:
+			setUserIntention(value);
+			break;
+		default:
 			break;
 		}		
 		return this;

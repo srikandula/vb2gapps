@@ -31,11 +31,14 @@ public class CreateMacroFilesBuilder implements ITransformBuilder {
 
 		VBAMacroExtractor macroExt = new VBAMacroExtractor();
 		
-		if(report.hasMacros()){
-			logger.info("Generating Macros for : " + report.getAbsolutePath());
-			macroExt.extract(new File(report.getAbsolutePath()), new File(fileOutout + "/" + report.getFileName() + "/"));
-		}
-
+		File outDir = new File(fileOutout + "/" + report.getFileName() + "/");
+		
+		logger.info("Generating Macros for : " + report.getAbsolutePath());
+		macroExt.extract(new File(report.getAbsolutePath()), outDir);
+		
+		//Post creation read the macro created from the output directory as the above api directly writes to folder
+		report.setVbMacroFiles(outDir.listFiles());
+		
 		return report;
 	}
 

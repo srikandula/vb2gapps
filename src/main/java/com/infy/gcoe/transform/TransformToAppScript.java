@@ -1,10 +1,10 @@
 package com.infy.gcoe.transform;
 
+import static com.infy.gcoe.poi.base.ReportConstants.ACTION_RESP_VB_2_APPS;
 import static com.infy.gcoe.poi.base.ReportConstants.SUMMARY_REPORT;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,11 +14,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import com.infy.gcoe.poi.GenerateReport;
-import com.infy.gcoe.poi.base.PrepareBasicDetailsBuilder;
-import com.infy.gcoe.poi.base.PrepareFileListBuilder;
-import com.infy.gcoe.poi.base.ReportConstants;
 import com.infy.gcoe.poi.vo.ExcelReportVO;
+import com.infy.gcoe.transform.core.ConvertVB2JSBuilder;
 import com.infy.gcoe.transform.core.CreateMacroFilesBuilder;
 import com.infy.gcoe.transform.core.ReadSummaryReportBuilder;
 
@@ -44,6 +41,9 @@ public class TransformToAppScript implements CommandLineRunner {
 	
 	@Autowired
 	CreateMacroFilesBuilder macroFileBuilder; 
+	
+	@Autowired
+	ConvertVB2JSBuilder convertVB2JSBuilder;
 	
 	public TransformToAppScript(ApplicationArguments args){
 		
@@ -78,16 +78,20 @@ public class TransformToAppScript implements CommandLineRunner {
 			summaryReportBuilder.setSummaryReportFileName(fileName);
 			summaryReportBuilder.run(reportList);
 		}
+	
 		
-		//Step 2 : Generate seperate files for each macro
 		for(ExcelReportVO report : reportList){
-			if(report.isExcelFile()){
+			if(report.isExcelFile() && report.hasMacros()){
+				//Step 2 : Generate separate files for each macro
 				macroFileBuilder.setReportPath(dest.get(0));
 				macroFileBuilder.run(report);
+				
+				//Step 3 : Convert files to app script
+				if(ACTION_RESP_VB_2_APPS.equalsIgnoreCase(report.getUserIntention())){
+					convertVB2JSBuilder.run(report);
+				}
 			}
 		}
 		
-		
-		//Step 3:
 	}
 }

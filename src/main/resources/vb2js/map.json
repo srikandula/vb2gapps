@@ -1,0 +1,122 @@
+{   
+    "Private": {"value": ""},
+    "Public": {"value": ""},
+    "Dim": {"value": "var"},
+    "Const": {"value": "var"},
+    "Set": {"value": ""},
+
+    "False": {"value": "false"},
+    "True": {"value": "true"},
+    "AND": {"value": "&&"},
+    "Or": {"value": "||"},
+    "<>": {"value": "!="},
+    "Not": {"value": "!"},
+    
+    "'": {"value": "//"},
+    "In": {"value": "in"},
+
+    ":": {"value": ""},
+    "=": {
+        "value": "=", 
+        "onIf": {
+            "value": "=="
+        }
+    },
+
+    "&": {"value": "+"},
+
+    "As": {"value": ""},
+    "Long": {"value": ""},
+    "Double": {"value": ""},
+    "String": {"value": ""},
+    "Optional": {"value": ""},
+    
+    "Function": {
+        "value": "function", 
+        "lineAfter": "{",
+        "onEnd": {
+            "value": "}"
+        }
+    },
+
+    "Sub": {
+        "value": "function", 
+        "lineAfter": "{",
+        "onEnd": {
+            "value": "}"
+        },
+        "onExit": {
+            "value": "break",
+            "lineAfter": "}"
+        }
+    },
+
+    "If": {
+        "value": "if", 
+        "after": "(",
+        "onEnd": {
+            "value": "}"
+        }
+    },
+
+    "Else": {
+        "value": "else",
+        "before": "}",
+        "after": "{"
+    },
+
+    "ElseIf": {
+        "value": "else if", 
+        "after": "("
+    },
+
+    "Then": {
+        "value": "", 
+        "after": ") {"
+    },
+
+    "With": {
+        "value": "with", 
+        "after": "(", 
+        "lineAfter": ") {",
+        "onEnd": {
+            "value": "}"
+        }
+    },
+
+    "For": {
+        "value": "for", 
+        "after": "(",
+        "lineAfter": ") {",
+
+        "onEnd": {
+            "value": "}"
+        },
+        "onExit": {
+            "value": "break"
+        },
+        "onEach": {
+            "value": "for",
+            "lineAfter": ") {"
+        }
+    },
+
+    "Each": {
+        "value": "",
+        "after": "( var"
+    },
+
+    "Next": {
+        "value": "}"
+    },
+
+    "While": {
+        "value": "while",  
+        "lineAfter": ") {", 
+        "onExit": "break"
+    },
+
+    "Exit": {"value": ""},
+
+    "End": {"value": ""}
+} 
