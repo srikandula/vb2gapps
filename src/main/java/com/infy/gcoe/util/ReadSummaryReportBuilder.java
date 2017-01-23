@@ -56,7 +56,7 @@ public class ReadSummaryReportBuilder {
 		}
 		
 		//Reading each row and preparing the excel report vo
-		for(int i=1;i<summarySheet.getLastRowNum();i++){
+		for(int i=1;i<summarySheet.getLastRowNum()+1;i++){
 			row = summarySheet.getRow((short)i);
 			cellItr = row.cellIterator();
 			

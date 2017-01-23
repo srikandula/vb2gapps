@@ -27,7 +27,6 @@ import com.infy.gcoe.vo.ExcelReportVO;
  * @author srinivas.kandula
  *
  */
-
 @Component
 @Profile(value="UploadExcelFile")
 public class UploadExcelFile implements CommandLineRunner {
@@ -48,6 +47,8 @@ public class UploadExcelFile implements CommandLineRunner {
 	UploadFileToDrive uploadFileToDrive;
 	
 	public UploadExcelFile(ApplicationArguments args){
+		
+		logger.info("About to run UploadExcelFile");
 		
 		if(args.containsOption("report.summary")){
 			summary = args.getOptionValues("report.summary");
@@ -74,6 +75,8 @@ public class UploadExcelFile implements CommandLineRunner {
 	@Override
 	public void run(String[] args) throws Exception {
 		List<ExcelReportVO> reportList = new ArrayList<>();
+		
+		
 		
 		//Step 1 : Read Microsoft files from share folders
 		for(String fileName : summary){
