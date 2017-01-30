@@ -39,11 +39,16 @@
          "value":"Browser.msgBox(",
          "lineAfter": ")"
          },  
-   
+   "InputBox":{
+   		 "value":"Browser.inputBox(",
+         "lineAfter": ")"
+   		},
     "Long": {"value": ""},
     "Double": {"value": ""},
     "String": {"value": ""},
     "Optional": {"value": ""},
+    "Option":{"value":""},
+    "Explicit":{"value":""},
     
     "Function": {
         "value": "function", 
