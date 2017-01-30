@@ -24,8 +24,22 @@
     },
 
     "&": {"value": "+"},
-
-    "As": {"value": ""},
+    "As":{"value":""},
+    "Attribute":{"value":"var"},
+    "Integer" : {"value":""},
+    "Variant" : {"value":""},
+    "Worksheet" : {"value":""},
+    "Range" : {"value":""},
+   "Worksheets":{"value":"SpreadsheetApp.getActiveSpreadsheet().getSheetByName"},
+   "ActiveWorkbook":{"value":"SpreadsheetApp.getActiveSpreadsheet()"},
+   "ActiveSheet":{"value":"SpreadsheetApp.getActiveSheet()"},
+   "Sheets":{"value":"SpreadsheetApp.getActiveSpreadsheet().getSheetByName"},
+   "Activate":{"value":"activate()"},
+   "MsgBox":{
+         "value":"Browser.msgBox(",
+         "lineAfter": ")"
+         },  
+   
     "Long": {"value": ""},
     "Double": {"value": ""},
     "String": {"value": ""},

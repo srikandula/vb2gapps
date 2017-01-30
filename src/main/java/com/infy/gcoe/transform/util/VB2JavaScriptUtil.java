@@ -17,6 +17,9 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
+import com.infy.gcoe.vo.SMCCalculatorVO;
+
 public class VB2JavaScriptUtil {
 	
 	private JSONObject wordMap = null;
@@ -34,9 +37,9 @@ public class VB2JavaScriptUtil {
 		 
 	}
 	
-	public String convert(String vbScriptPath, String outputJsScriptPath){
+	public List<SMCCalculatorVO> convert(String vbScriptPath, String outputJsScriptPath){
 		StringBuilder outputBuilder = new StringBuilder();
-		
+		List<SMCCalculatorVO> SMCCalculatorList = new ArrayList<>();
 		try{
 			String line = null;
 			BufferedReader inputReader = new BufferedReader(new FileReader(vbScriptPath));
@@ -134,6 +137,22 @@ public class VB2JavaScriptUtil {
 			    outputBuilder.append("\n");
 			}
 			inputReader.close();
+			SMCCalculatorVO smcCalculatorVo = new SMCCalculatorVO();
+			
+			
+			
+			if(lineCounter <= 25){
+				smcCalculatorVo.setComplexity("Simple");
+			}	
+			else if(lineCounter > 25 && lineCounter <=50){
+				smcCalculatorVo.setComplexity("Medium");
+			}else{
+				smcCalculatorVo.setComplexity("Complex");
+			}
+
+			smcCalculatorVo.setLineCount(lineCounter);
+			smcCalculatorVo.setName(vbScriptPath);
+			SMCCalculatorList.add(smcCalculatorVo);
 			
 			//Create parse content to file
 			writeAppScriptToFile(outputBuilder.toString(),outputJsScriptPath);
@@ -142,7 +161,8 @@ public class VB2JavaScriptUtil {
 			logger.error("Error in conversion ", ex);
 		}
 		
-		return outputBuilder.toString();
+		
+		return SMCCalculatorList;
 	}
 	
 	/**

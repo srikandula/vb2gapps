@@ -2,6 +2,8 @@ package com.infy.gcoe.transform.core;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.infy.gcoe.transform.util.VB2JavaScriptUtil;
 import com.infy.gcoe.vo.ExcelReportVO;
+import com.infy.gcoe.vo.SMCCalculatorVO;
 
 /**
  * Step 3: Converts the VB Script files to AppScript Files
@@ -38,7 +41,9 @@ public class ConvertVB2JSBuilder implements ITransformBuilder {
 			jsFile = macroFile.substring(0,macroFile.lastIndexOf('.')) + ".js";
 			
 			logger.info("Converting {} to {}",macroFile,jsFile);
-			util.convert(macroFile, jsFile);
+			List<SMCCalculatorVO> SMCCalculatorList =util.convert(macroFile, jsFile);
+			
+			logger.info("Complexity classification "+SMCCalculatorList);
 		}	
 
 		
