@@ -188,7 +188,7 @@ public class VB2JavaScriptUtil {
 	 */
 	private String[] split(String line){
 		if(line != null){
-			return line.split("(?=[ ()\',.:=])|(?<=[ ()\',.:=])");
+			return line.split("(?=[ ()\'.,:=])|(?<=[ ()\'.,:=])");
 		}
 		return new String[0];
 	}
