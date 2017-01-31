@@ -37,19 +37,31 @@ public class VB2JavaScriptUtil {
 		 
 	}
 	
-	public List<SMCCalculatorVO> convert(String vbScriptPath, String outputJsScriptPath){
+	public SMCCalculatorVO convert(String vbScriptPath, String outputJsScriptPath, SMCCalculatorVO smcCalculatorVo, List<String> baseFunctionNamesList){
 		StringBuilder outputBuilder = new StringBuilder();
-		List<SMCCalculatorVO> SMCCalculatorList = new ArrayList<>();
+		
 		try{
 			String line = null;
 			BufferedReader inputReader = new BufferedReader(new FileReader(vbScriptPath));
 			
 			int lineCounter = 0;
+			long hitCounter = 0;
+			long missedCounter = 0;
+			long customFucntionsCount = 0;
 			while((line =inputReader.readLine())!= null){
 				lineCounter++;
 				logger.trace("{} : Line = {}",lineCounter, line);
 				int wordCounter = 0;
+				boolean keyWordFoundFlag = false;
+				
+				
 				String words[] = split(line);
+				
+				// count the matched base functions for each line
+				if(Arrays.asList(words).contains(baseFunctionNamesList)){
+					customFucntionsCount++;
+				}
+				
 				List<String> parsedWords = new ArrayList<>();
 				String lineBefore = "";
 				String lineAfter = "";	
@@ -61,6 +73,7 @@ public class VB2JavaScriptUtil {
 					JSONObject jsonObj = get(str,null,null);						
 					String rule = null;
 					if(jsonObj != null){
+						keyWordFoundFlag = true;
 						Iterator<String> keysItr = jsonObj.keys();
 						String key = null;
 						while(keysItr.hasNext()){
@@ -135,24 +148,22 @@ public class VB2JavaScriptUtil {
 			    }
 			    outputBuilder.append(lineAfter);
 			    outputBuilder.append("\n");
+			    
+			    if(keyWordFoundFlag){
+			    	hitCounter++;
+			    }else{
+			    	missedCounter++;
+			    }
 			}
 			inputReader.close();
-			SMCCalculatorVO smcCalculatorVo = new SMCCalculatorVO();
 			
 			
-			
-			if(lineCounter <= 25){
-				smcCalculatorVo.setComplexity("Simple");
-			}	
-			else if(lineCounter > 25 && lineCounter <=50){
-				smcCalculatorVo.setComplexity("Medium");
-			}else{
-				smcCalculatorVo.setComplexity("Complex");
-			}
-
+			smcCalculatorVo.setHitCount(hitCounter);
+			smcCalculatorVo.setMissedCount(missedCounter);
+			smcCalculatorVo.setCustomFunctionsCount(customFucntionsCount);
 			smcCalculatorVo.setLineCount(lineCounter);
 			smcCalculatorVo.setName(vbScriptPath);
-			SMCCalculatorList.add(smcCalculatorVo);
+			
 			
 			//Create parse content to file
 			writeAppScriptToFile(outputBuilder.toString(),outputJsScriptPath);
@@ -162,7 +173,7 @@ public class VB2JavaScriptUtil {
 		}
 		
 		
-		return SMCCalculatorList;
+		return smcCalculatorVo;
 	}
 	
 	/**

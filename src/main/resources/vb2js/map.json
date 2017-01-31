@@ -59,7 +59,7 @@
            },
     "PROC_EXIT":{
       			"value":"",
-                "on:"{
+                "on:":{
                 	"value":""
                 	}
                  },

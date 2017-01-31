@@ -5,8 +5,34 @@ public class SMCCalculatorVO {
 	private String name;
 	private String complexity;
 	private long lineCount;
+	private long hitCount;
+	private long missedCount;
+	private long customFunctionsCount;
 	
-	
+	public long getCustomFunctionsCount() {
+		return customFunctionsCount;
+	}
+
+	public void setCustomFunctionsCount(long customFunctionsCount) {
+		this.customFunctionsCount = customFunctionsCount;
+	}
+
+	public long getHitCount() {
+		return hitCount;
+	}
+
+	public void setHitCount(long hitCount) {
+		this.hitCount = hitCount;
+	}
+
+	public long getMissedCount() {
+		return missedCount;
+	}
+
+	public void setMissedCount(long missedCount) {
+		this.missedCount = missedCount;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -40,10 +66,14 @@ public class SMCCalculatorVO {
 		builder.append(name);
 		builder.append(", complexity=");
 		builder.append(complexity);
-		//builder.append(", content=");
-		//builder.append(content);
 		builder.append(", lineCount=");
 		builder.append(lineCount);
+		builder.append(", hitCount=");
+		builder.append(hitCount);
+		builder.append(", missedCount=");
+		builder.append(missedCount);
+		builder.append(", customFunctionsCount=");
+		builder.append(customFunctionsCount);
 		builder.append("]");
 		
 		return builder.toString();

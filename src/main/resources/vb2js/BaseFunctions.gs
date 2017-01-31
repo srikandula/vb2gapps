@@ -907,3 +907,22 @@ function Replace(s,f,r) {
 function IsError(s) {
     return (! s == null);
 };
+
+
+/***
+*
+*Format the Date
+*/
+function Format(d) {
+return Utilities.formatDate(d, "GMT", "yyyy-MM-dd'T'HH:mm:ss'Z'");
+}
+
+/***
+*
+*Clear contents of the selected Range
+*
+*/
+
+function ClearContents(range){
+  range.clearContent();
+}
