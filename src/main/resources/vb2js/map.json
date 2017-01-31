@@ -54,7 +54,16 @@
     "Optional": {"value": ""},
     "Option":{"value":""},
     "Explicit":{"value":""},
-    "Value":{"value":"getValue()"},
+    "Value":{
+           "value":"getValue()"
+           },
+    "PROC_EXIT":{
+      			"value":"",
+                "on:"{
+                	"value":""
+                	}
+                 },
+    "Version":{"value":""},
     "Function": {
         "value": "function", 
         "lineAfter": "{",
@@ -110,7 +119,7 @@
 
     "For": {
         "value": "for", 
-        "after": "(",
+        "after": "( ",
         "lineAfter": ") {",
 
         "onEnd": {
