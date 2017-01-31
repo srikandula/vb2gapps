@@ -52,7 +52,7 @@ public class ConvertVB2JSBuilder implements ITransformBuilder {
 			SMCCalculatorVO =util.convert(macroFile, jsFile,SMCCalculatorVO,baseFunctionNamesList);
 			if(SMCCalculatorVO.getLineCount()<=25 ){
 				SMCCalculatorVO.setComplexity("Simple");
-			}else if(SMCCalculatorVO.getLineCount()>25 || SMCCalculatorVO.getLineCount()<=50){
+			}else if(SMCCalculatorVO.getLineCount()>25  && SMCCalculatorVO.getLineCount()<=50){
 				SMCCalculatorVO.setComplexity("Medium");
 			}else{
 				SMCCalculatorVO.setComplexity("Complex");
@@ -70,8 +70,7 @@ public class ConvertVB2JSBuilder implements ITransformBuilder {
 	 * @param loadBaseFunctionStream
 	 * @return
 	 */
-	private List<String> listBaseFunctionNames(
-			InputStream loadBaseFunctionStream) {
+	private List<String> listBaseFunctionNames(InputStream loadBaseFunctionStream) {
 		BufferedReader reader = null;
 		 List<String> baseFunctionNamesList = new ArrayList<>();
 		   try {
@@ -80,7 +79,7 @@ public class ConvertVB2JSBuilder implements ITransformBuilder {
 	            while(line != null){
 	               if(line.startsWith("function")) {
 	            	   if(line.indexOf('(')>=0){
-	            		   baseFunctionNamesList.add(line.substring(7, line.indexOf('(')).trim());
+	            		   baseFunctionNamesList.add(line.substring(8, line.indexOf('(')).trim());
 	            	   }
 	               }
 	                line = reader.readLine();

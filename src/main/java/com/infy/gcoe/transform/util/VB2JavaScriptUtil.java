@@ -57,16 +57,18 @@ public class VB2JavaScriptUtil {
 				
 				String words[] = split(line);
 				
-				// count the matched base functions for each line
-				if(Arrays.asList(words).contains(baseFunctionNamesList)){
-					customFucntionsCount++;
-				}
+				
 				
 				List<String> parsedWords = new ArrayList<>();
 				String lineBefore = "";
 				String lineAfter = "";	
 				for(String str : words){
 					wordCounter++;
+					
+					// count the matched base functions for each line
+					if(baseFunctionNamesList.contains(str)){
+						customFucntionsCount++;
+					}
 					
 					//Search for conditions like END SUB
 					logger.trace("{}, finding string : {}",wordCounter, str);
