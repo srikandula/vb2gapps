@@ -30,11 +30,16 @@
     "Global":{"value":""},
     "Variant" : {"value":""},
     "Worksheet" : {"value":""},
-    "Range" : {"value":""},
+    "Range" : {
+    			"value":"",
+    			"on(":{
+    			"value":"SpreadsheetApp.getActiveSpreadsheet().getRange"
+    			}
+    		   },
+    "Select":{"value":"activate()"},
     "Boolean":{"value":""},
     "ByVal":{"value":""},
     "Name":{"value":""},
-    ".Range":{"value":"SpreadsheetApp.getActiveSpreadsheet().getRange"},
    "Worksheets":{"value":"SpreadsheetApp.getActiveSpreadsheet().getSheetByName"},
    "ActiveWorkbook":{"value":"SpreadsheetApp.getActiveSpreadsheet()"},
    "ActiveSheet":{"value":"SpreadsheetApp.getActiveSheet()"},
@@ -48,6 +53,9 @@
    		 "value":"Browser.inputBox(",
          "lineAfter": ")"
    		},
+   	"Columns":{
+   				"value":"SpreadsheetApp.getActiveSheet().hideColumn"
+   			   },
     "Long": {"value": ""},
     "Double": {"value": ""},
     "String": {"value": ""},
@@ -79,7 +87,7 @@
             "value": "}"
         },
         "onExit": {
-            "value": "break",
+            "value": "exit",
             "lineAfter": "}"
         }
     },
@@ -99,7 +107,8 @@
     },
 
     "ElseIf": {
-        "value": "else if", 
+        "value": "else if",
+        "before": "}", 
         "after": "("
     },
 
@@ -116,7 +125,10 @@
             "value": "}"
         }
     },
-
+  "ThisWorkbook":{
+  					"value":"",
+  					"on.":{"value":""}
+  					},
     "For": {
         "value": "for", 
         "after": "( ",
@@ -140,7 +152,7 @@
     },
 
     "Next": {
-        "value": "}"
+        "value": "} //"
     },
 
     "While": {
@@ -149,7 +161,11 @@
         "onExit": "break"
     },
 
-    "Exit": {"value": ""},
+    "Exit": {"value": "",
+    		 "onFunction":{"value":"exit; //"}
+            },
 
-    "End": {"value": ""}
+    "End": {"value": ""},
+    
+    "Wend":{"value":"}"}
 } 
