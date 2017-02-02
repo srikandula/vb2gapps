@@ -1,3 +1,4 @@
+
 /** @description
  * javaScript/Google Apps script functions that are equivalent to common VBA functions
  * in general these provide the same functionality and have the same calling stack
@@ -925,4 +926,46 @@ return Utilities.formatDate(d, "GMT", "yyyy-MM-dd'T'HH:mm:ss'Z'");
 
 function ClearContents(range){
   range.clearContent();
+}
+
+
+/****get Max Rows in the sheet**/
+function getMaxRows(sheet){
+return sheet.getMaxRows();
+}
+
+/***get Max columns in the sheet**/
+
+function getMaxColumns(sheet){
+return sheet.getMaxColumns();
+
+}
+
+/**Return an array containing the values in the range name argument.
+*Passing a non-existent range name raises the following error:
+*TypeError: Cannot call method "getValues" of null. (line 0).*/
+function getNamedRangeValues ( range_name ) {
+ // Create an spreadsheet object.
+ var active_spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+ // Create the range object.
+ var range = active_spreadsheet.getRangeByName(range_name);
+ // Call the getValues() range object method to create an array 
+ // containing the values for the cells in that named range.
+ var range_values = range.getValues();
+
+ // Return the array
+ return range_values;
+
+}
+
+
+
+/**
+ * filter items based on range and search criteria (query)
+ */
+function filterItems(range,query) {
+	var range_values = range.getValues();
+    return range_values.filter(function(el) {
+     return LCase(el).indexOf(LCase(query)) > -1;
+    })
 }

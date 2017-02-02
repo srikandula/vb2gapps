@@ -14,6 +14,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import com.infy.gcoe.transform.core.ConvertJS2AppScriptBuilder;
 import com.infy.gcoe.transform.core.ConvertVB2JSBuilder;
 import com.infy.gcoe.transform.core.CreateMacroFilesBuilder;
 import com.infy.gcoe.util.ReadSummaryReportBuilder;
@@ -44,6 +45,10 @@ public class TransformToAppScript implements CommandLineRunner {
 	
 	@Autowired
 	ConvertVB2JSBuilder convertVB2JSBuilder;
+	
+	@Autowired
+	ConvertJS2AppScriptBuilder convertJS2AppScriptBuilder;
+	
 	
 	public TransformToAppScript(ApplicationArguments args){
 		
@@ -89,6 +94,7 @@ public class TransformToAppScript implements CommandLineRunner {
 				//Step 3 : Convert files to app script
 				if(ACTION_RESP_VB_2_APPS.equalsIgnoreCase(report.getUserIntention())){
 					convertVB2JSBuilder.run(report);
+					convertJS2AppScriptBuilder.run(report);
 				}
 			}
 		}

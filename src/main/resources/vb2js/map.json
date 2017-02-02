@@ -8,6 +8,7 @@
     "False": {"value": "false"},
     "True": {"value": "true"},
     "AND": {"value": "&&"},
+    "And":{"value":"&&"},
     "Or": {"value": "||"},
     "<>": {"value": "!="},
     "Not": {"value": "!"},
@@ -91,7 +92,9 @@
             "lineAfter": "}"
         }
     },
-
+	"UCase$":{"value":"UCase"},
+	"Left$":{"value":"Left"},
+	"Replace$":{"value":"Replace"},
     "If": {
         "value": "if", 
         "after": "(",

@@ -42,12 +42,13 @@ public class ConvertVB2JSBuilder implements ITransformBuilder {
 	    logger.info("baseFunctionNamesList "+baseFunctionNamesList);
 
 	    String macroFile       = null;
-		String jsFile          = null;		
+		String jsFile          = null;	
+		String gsFile 		   = null;
 		List<SMCCalculatorVO> SMCCalculatorList = new ArrayList<>();
 		
 		for(int i=0;i<vbScrpts.length;i++){
 			macroFile = vbScrpts[i].getAbsolutePath();
-			jsFile = macroFile.substring(0,macroFile.lastIndexOf('.')) + ".gs";
+			jsFile = macroFile.substring(0,macroFile.lastIndexOf('.')) + ".js";
 			SMCCalculatorVO SMCCalculatorVO = new SMCCalculatorVO();
 			SMCCalculatorVO =util.convert(macroFile, jsFile,SMCCalculatorVO,baseFunctionNamesList);
 			if(SMCCalculatorVO.getLineCount()<=25 ){
@@ -66,6 +67,7 @@ public class ConvertVB2JSBuilder implements ITransformBuilder {
 		return report;
 	}
 
+	
 	/**
 	 * @param loadBaseFunctionStream
 	 * @return

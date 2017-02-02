@@ -164,7 +164,7 @@ public class VB2JavaScriptUtil {
 			smcCalculatorVo.setMissedCount(missedCounter);
 			smcCalculatorVo.setCustomFunctionsCount(customFucntionsCount);
 			smcCalculatorVo.setLineCount(lineCounter);
-			smcCalculatorVo.setName(vbScriptPath);
+			smcCalculatorVo.setName(outputJsScriptPath);
 			
 			
 			//Create parse content to file
