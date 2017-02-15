@@ -84,35 +84,25 @@ public class VB2JavaScriptUtil {
 			contents = contents.replace("Now()", "new Date()");
 			contents = contents.replace("Now", "new Date()");
 			contents = contents.replace("As CustomProperty", "");
-			
-			
 			contents = contents.replace(".Range", "SpreadsheetApp.getActiveSpreadsheet().getRange");
 			//contents = contents.replace("Range(", "SpreadsheetApp.getActiveSpreadsheet().getRange(");
-			
 			contents = contents.replace("ActiveWorkbook", "ActiveWorkbook()");
 			contents = contents.replace("As Workbook", "");
-			
 			contents = contents.replace("Select Case", "switch(");
 			contents = contents.replace("End Select", "}");
 			contents = contents.replace("Case ", "case ");
 			contents = contents.replace("'", "//");
 			contents = contents.replace("case Else", "case ''");
-			contents = contents.replace("Application.DisplayAlerts", "//Application.DisplayAlerts");
-			contents = contents.replace("Application.ScreenUpdating", "//Application.ScreenUpdating");
-			contents = contents.replace("Application.StatusBar", "//Application.StatusBar");
-			contents = contents.replace("Application.FileDialog", "//Application.FileDialog");
-			contents = contents.replace("Application.Evaluate", "//Application.Evaluate");
-			contents = contents.replace("Application.WindowState", "//Application.WindowState");
-			contents = contents.replace("ActiveWindow.DisplayGridlines", "//ActiveWindow.DisplayGridlines");
-			
-			
 			contents = contents.replace(".Select", ".activate()");
 			contents = contents.replace("End If", "}");
 			contents = contents.replace("If Not", "if(!");
 			contents = contents.replace("ElseIf", "}else if(");
-			contents = contents.replace("Do While", "while(");
+			
+			//Do while loop in VB script is converted to while loop in appscript- start
+			contents = contents.replace("Do While", "while(");  
 			contents = contents.replace("Exit Do", "break;");
 			contents = contents.replace("Loop", "}");
+			//Do while loop in VB script is converted to while loop appscript- end
 			
 			contents = contents.replace("Else", "} else {");
 			contents = contents.replace("Then", "){");
@@ -143,6 +133,19 @@ public class VB2JavaScriptUtil {
 			contents = contents.replace("Right$", "Right");
 			contents = contents.replace("Optional", "");
 			contents = contents.replace("$", "");
+
+			//Need to identify replacements for the following - start 
+			contents = contents.replace("GoTo", "GoTo"); 
+			contents = contents.replace("On Error", "On Error"); 
+			contents = contents.replace("Application.DisplayAlerts", "//Application.DisplayAlerts");
+			contents = contents.replace("Application.ScreenUpdating", "//Application.ScreenUpdating");
+			contents = contents.replace("Application.StatusBar", "//Application.StatusBar");
+			contents = contents.replace("Application.FileDialog", "//Application.FileDialog");
+			contents = contents.replace("Application.Evaluate", "//Application.Evaluate");
+			contents = contents.replace("Application.WindowState", "//Application.WindowState");
+			contents = contents.replace("ActiveWindow.DisplayGridlines", "//ActiveWindow.DisplayGridlines");
+			
+			//Need to identify replacements for the following - end
 			
 		
 			writeAppScriptToFile(contents,outputJsScriptPath);
