@@ -94,7 +94,7 @@ public class TransformToAppScript implements CommandLineRunner {
 				//Step 3 : Convert files to app script
 				if(ACTION_RESP_VB_2_APPS.equalsIgnoreCase(report.getUserIntention())){
 					convertVB2JSBuilder.run(report);
-					convertJS2AppScriptBuilder.run(report);
+					//convertJS2AppScriptBuilder.run(report);
 				}
 			}
 		}

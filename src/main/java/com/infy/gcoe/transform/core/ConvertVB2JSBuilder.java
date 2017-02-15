@@ -39,11 +39,10 @@ public class ConvertVB2JSBuilder implements ITransformBuilder {
 		resourceStream.close();
 		
 		List<String> baseFunctionNamesList = listBaseFunctionNames(loadBaseFunctionStream);
-	    logger.info("baseFunctionNamesList "+baseFunctionNamesList);
+//	    logger.info("baseFunctionNamesList "+baseFunctionNamesList);
 
 	    String macroFile       = null;
 		String jsFile          = null;	
-		String gsFile 		   = null;
 		List<SMCCalculatorVO> SMCCalculatorList = new ArrayList<>();
 		
 		for(int i=0;i<vbScrpts.length;i++){
@@ -63,7 +62,7 @@ public class ConvertVB2JSBuilder implements ITransformBuilder {
 			
 		}	
 
-		logger.info("Complexity classification "+SMCCalculatorList);
+//		logger.info("Complexity classification "+SMCCalculatorList);
 		return report;
 	}
 
