@@ -84,8 +84,9 @@ public class VB2JavaScriptUtil {
 			contents = contents.replace("Now()", "new Date()");
 			contents = contents.replace("Now", "new Date()");
 			contents = contents.replace("As CustomProperty", "");
+			contents = contents.replace("Range(", "SpreadsheetApp.getActiveSpreadsheet().getRange(");
 			contents = contents.replace(".Range", "SpreadsheetApp.getActiveSpreadsheet().getRange");
-			//contents = contents.replace("Range(", "SpreadsheetApp.getActiveSpreadsheet().getRange(");
+			
 			contents = contents.replace("ActiveWorkbook", "ActiveWorkbook()");
 			contents = contents.replace("As Workbook", "");
 			contents = contents.replace("Select Case", "switch(");
